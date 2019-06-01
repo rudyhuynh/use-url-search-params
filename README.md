@@ -61,9 +61,7 @@ const [params, setParams] = useUrlSearchParams({}, types);
 
 Although you can use `JSON.parse()` and `JSON.stringify()` to get/set arbitrary serializable data to URL query, it is not recommended. URL query is a good place to store and persist page settings as a key/value pair such as table filter, sorting, paging, etc. We should keep it that way for simplicity. **For complex data structure, you should consider using other state management for better performance and flexibility.**
 
-<aside class="notice">
-You should also be aware of XSS attack. Be careful to validate values from URL query before using it (by using `types` - the second parameter passed to `useUrlSearchParams()` or validate them yourself if neccessary)
-</aside>
+> **WARNING**: Be aware of XSS attack. Be careful to validate values from URL query before using it (by using `types` - the second parameter passed to `useUrlSearchParams()` or validate them yourself if neccessary)
 
 But if you still insist, here is an example:
 
