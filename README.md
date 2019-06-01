@@ -1,4 +1,4 @@
-# `useUrlSearchParams()`.
+# `useUrlSearchParams()`
 
 A React Hook to use [URL query string](https://en.wikipedia.org/wiki/Query_string) as a state management
 
