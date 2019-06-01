@@ -8,7 +8,7 @@
   "scripts": {
     "webpack": "webpack"
   },
-  "devDependencies": {
+  "optionalDependencies": {
     "webpack": "^4.32.2",
     "webpack-cli": "^3.3.2"
   },

@@ -58,7 +58,7 @@ const [params, setParams] = useUrlSearchParams(
 
 ## Complex data structure
 
-Although you can use `JSON.parse()` and `JSON.stringify()` to get/set arbitrary serializable data to URL query, it is not recommended. URL query is a good place to store and persist page settings as a key/value pair (ex: table filter, sorting, paging, etc.), and we should keep it that way for simplicity. _For complex data structure, you should consider using other state management for better performance and flexibility._
+Although you can use `JSON.parse()` and `JSON.stringify()` to get/set arbitrary serializable data to URL query, it is not recommended. URL query is a good place to store and persist page settings as a key/value pair (ex: table filter, sorting, paging, etc.), and we should keep it that way for simplicity. **For complex data structure, you should consider using other state management for better performance and flexibility.**
 
 But if you still insist, here is an example:
 
