@@ -99,3 +99,7 @@ function App() {
 ## Read more
 
 This library is built base on [URLSearchParams interface](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams)
+
+## License
+
+MIT
