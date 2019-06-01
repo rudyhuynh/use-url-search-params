@@ -1,4 +1,4 @@
-# `useUrlSearchParams`.
+# `useUrlSearchParams()`.
 
 A React Hook to use [URL query string](https://en.wikipedia.org/wiki/Query_string) as a state management
 
@@ -25,7 +25,8 @@ import React from "react";
 import { useUrlSearchParams } from "use-url-search-params";
 
 function App() {
-  const [params, setParams] = useUrlSearchParams({ checked: false });
+  // Your page URL will be like this by default: http://my.page?checked=true
+  const [params, setParams] = useUrlSearchParams({ checked: true });
 
   React.useEffect(() => {
     // do something when `params.checked` is updated.
@@ -94,8 +95,6 @@ function App() {
     - `Bool`
     - Array of available values (similar to enum)
     - A custom resolver function
-
-## React router ?
 
 ## Read more
 
