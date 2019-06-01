@@ -1,0 +1,18 @@
+{
+  "name": "use-url-search-params",
+  "version": "1.0.2",
+  "main": "dist/useUrlSearchParams.js",
+  "author": "rudyhuynh <rudyhuynh@",
+  "license": "MIT",
+  "dependencies": {},
+  "scripts": {
+    "webpack": "webpack"
+  },
+  "devDependencies": {
+    "webpack": "^4.32.2",
+    "webpack-cli": "^3.3.2"
+  },
+  "peerDependencies": {
+    "react": "^16.8.6"
+  }
+}
