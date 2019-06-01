@@ -4,6 +4,11 @@ A React Hook to use [URL query string](https://en.wikipedia.org/wiki/Query_strin
 
 [Demo](https://rudyhuynh.github.io/use-url-search-params)
 
+## Why you need this
+
+- Your app need to persist its state after user refresh the page.
+- Some page settings (ex: table filter, sorting, paging, etc.) should be saved in the URL so that user can easily pass to others.
+
 ## Installation
 
 ```
