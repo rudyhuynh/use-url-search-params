@@ -1,68 +1,102 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# `useUrlSearchParams`.
 
-## Available Scripts
+A React Hook to use [URL query string](https://en.wikipedia.org/wiki/Query_string) as a state management
 
-In the project directory, you can run:
+[Demo](http://)
 
-### `npm start`
+## Installation
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```
+npm install use-url-search-params
+```
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+or
 
-### `npm test`
+```
+yarn add use-url-search-params
+```
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## How to use
 
-### `npm run build`
+For most of the time you will do something like this:
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```js
+import React from "react";
+import { useUrlSearchParams } from "use-url-search-params";
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+function App() {
+  const [params, setParams] = useUrlSearchParams({ checked: false });
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+  React.useEffect(() => {
+    // do something when `params.checked` is updated.
+  }, [params.checked]);
 
-### `npm run eject`
+  return (
+    <div>
+      <input
+        type="checkbox"
+        checked={params.checked}
+        onChange={e => setParams({ checked: e.target.checked })}
+      />
+    </div>
+  );
+}
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## How to control the value parsed from URL query
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```js
+const [params, setParams] = useUrlSearchParams(
+  {},
+  { x: Number, y: ["option1", "option2", "option3"], z: Boolean }
+);
+// `params.x` will always be number (or NaN)
+// `params.y` will be either empty or one of ["option1", "option2", "option3"]
+// `params.z` will be one of [undefined, true, false]
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Complex data structure
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Although you can use `JSON.parse()` and `JSON.stringify()` to get/set arbitrary serializable data to URL query, it is not recommended. URL query is a good place to store and persist page settings as a key/value pair (ex: table filter, sorting, paging, etc.), and we should keep it that way for simplicity. _For complex data structure, you should consider using other state management for better performance and flexibility._
 
-## Learn More
+But if you still insist, here is an example:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```js
+function App() {
+  const [params, setParams] = useUrlSearchParams(
+    {},
+    {
+      complexData: dataString => {
+        try {
+          return JSON.parse(dataString);
+        } catch (e) {
+          return {};
+        }
+      }
+    }
+  );
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+  const onSetParams = data => {
+    setParams({ complexData: JSON.stringify(data) });
+  };
 
-### Code Splitting
+  return <div>{/*...*/}</div>;
+}
+```
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+## API
 
-### Analyzing the Bundle Size
+- **useUrlSearchParams([initial, types])**
+  - `initial` (optional | Object): To set default values for URL query string.
+  - `types` (optional | Object): Has similar shape with `initial`, help to resolve values from URL query string. Supported types:
+    - `String` (default)
+    - `Number`
+    - `Bool`
+    - Array of available values (similar to enum)
+    - A custom resolver function
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+## React router ?
 
-### Making a Progressive Web App
+## Read more
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+This library is built base on [URLSearchParams interface](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams)

@@ -1,31 +1,18 @@
 {
-  "name": "route-query-state",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "react-scripts": "3.0.1"
-  },
+  "name": "use-url-search-params",
+  "version": "1.0.0",
+  "main": "dist/useUrlSearchParams.js",
+  "author": "rudyhuynh <rudyhuynh@",
+  "license": "MIT",
+  "dependencies": {},
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "webpack": "webpack"
   },
-  "eslintConfig": {
-    "extends": "react-app"
+  "devDependencies": {
+    "webpack": "^4.32.2",
+    "webpack-cli": "^3.3.2"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "peerDependencies": {
+    "react": "^16.8.6"
   }
 }
