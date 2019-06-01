@@ -13,6 +13,8 @@ function setQueryToCurrentUrl(params) {
         value.forEach(valueItem => {
           url.searchParams.append(key, valueItem);
         });
+      } else if (typeof value === "object") {
+        url.searchParams.set(key, JSON.stringify(value));
       } else {
         url.searchParams.set(key, value);
       }
@@ -126,6 +128,7 @@ export function useUrlSearchParams(initial = {}, types) {
 function parseValue(key, value, types, defaultParams) {
   if (!types) return value;
   const type = types[key];
+
   if (type === Number) {
     return value === undefined ? Number(defaultParams[key]) : Number(value);
   }

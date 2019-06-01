@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import { useUrlSearchParams } from "use-url-search-params";
-
+console.log("useUrlSearchParams", useUrlSearchParams);
 function App() {
   const initial = { checked: true };
   const types = {
@@ -17,7 +17,7 @@ function App() {
   };
   const [queries, setQueries] = useUrlSearchParams(initial, types);
 
-  React.return(
+  return (
     <div className="App">
       <button
         onClick={() =>
@@ -29,7 +29,11 @@ function App() {
       <button onClick={() => setQueries({ arr: [1, 2, 3] })}>
         Set an array to URL query
       </button>
-      <select value={queries.selectedOption}>
+      <select
+        value={queries.selectedOption}
+        onChange={e => setQueries({ selectedOption: e.target.value })}
+      >
+        <option />
         <option value="option1">option 1</option>
         <option value="option2">option 2</option>
         <option value="option3">option 3</option>
@@ -42,7 +46,7 @@ function App() {
         />{" "}
         Check me!
       </label>
-      <div>
+      <div style={{ textAlign: "left" }}>
         Queries:
         <pre>
           <code>{JSON.stringify(queries, null, 2)}</code>
