@@ -1,6 +1,6 @@
 {
   "name": "use-url-search-params",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "main": "dist/useUrlSearchParams.js",
   "author": "rudyhuynh <rudyhuynh@",
   "license": "MIT",
