@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import { useUrlSearchParams } from "use-url-search-params";
-console.log("useUrlSearchParams", useUrlSearchParams);
+
 function App() {
   const initial = { checked: true };
   const types = {
