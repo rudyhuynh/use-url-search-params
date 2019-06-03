@@ -104,7 +104,7 @@ export function useUrlSearchParams(initial = {}, types) {
 
   function redirectToNewSearchParams(params) {
     const url = setQueryToCurrentUrl(params);
-    window.history.pushState({}, "", url);
+    window.history.replaceState({}, "", url);
 
     if (urlSearchParams.toString() !== url.searchParams.toString()) {
       forceUpdate(!forceUpdateSwitch);
