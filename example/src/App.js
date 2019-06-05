@@ -17,7 +17,9 @@ function App() {
     }
   };
   const [queries, setQueries] = useUrlSearchParams(initial, types);
+  
   console.log("queries", queries);
+  
   return (
     <div className="App">
       <h2>
