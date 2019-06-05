@@ -28,7 +28,7 @@ function App() {
       </h2>
       <div>
         See{" "}
-        <a href="https://github.com/rudyhuynh/use-url-search-params/tree/master/example">
+        <a href="https://github.com/rudyhuynh/use-url-search-params/blob/master/example/src/App.js">
           source code here
         </a>
       </div>
