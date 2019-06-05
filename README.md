@@ -112,7 +112,7 @@ function App() {
     - `String` (default)
     - `Number`
     - `Bool`
-    - `Date` - [`Date.toISOString()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString) is used to parse time, e.g date string in your URL query is zero UTC offset
+    - `Date` - [`Date​.prototype​.toISOString()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString) is used to parse time, e.g date string in your URL query is zero UTC offset
     - Array of available string values (like enum)
     - A custom resolver function
 
