@@ -67,11 +67,11 @@ function validateTypes(types = {}) {
 export function useUrlSearchParams(initial = {}, types) {
   if (types) validateTypes(types);
 
-  const [, forceUpdate] = React.useState();
+  const [locationSearch, setLocationSearch] = React.useState("");
 
   const urlSearchParams = React.useMemo(() => {
     return new URLSearchParams(window.location.search);
-  }, [window.location.search]);
+  }, [locationSearch]);
 
   const params = React.useMemo(() => {
     let result = [];
@@ -111,7 +111,7 @@ export function useUrlSearchParams(initial = {}, types) {
     window.history.pushState({}, "", url);
 
     if (urlSearchParams.toString() !== url.searchParams.toString()) {
-      forceUpdate({});
+      setLocationSearch(window.location.search);
     }
   }
 
@@ -128,13 +128,13 @@ export function useUrlSearchParams(initial = {}, types) {
 
   React.useEffect(() => {
     const onPopState = event => {
-      forceUpdate({});
+      setLocationSearch(window.location.search);
     };
     window.addEventListener("popstate", onPopState);
     return () => {
       window.removeEventListener("popstate", onPopState);
     };
-  });
+  }, []);
 
   return [params, setParams];
 }
