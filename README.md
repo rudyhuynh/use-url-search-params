@@ -116,7 +116,7 @@ function App() {
     - Array of available string values (like enum)
     - A custom resolver function
 
-## Read more
+## Read more (for maintainers)
 
 This library is built base on [URLSearchParams interface](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams)
 
