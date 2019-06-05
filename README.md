@@ -56,12 +56,21 @@ function App() {
 By default, all values parsed from URL query are string. In case you want to get boolean or number value, pass a second argument to `useUrlSearchParams()` to specify data type you want to get from `params` object. Here is an example:
 
 ```js
-const types = { x: Number, y: ["option1", "option2", "option3"], z: Boolean };
-const [params, setParams] = useUrlSearchParams({}, types);
+const initial = {
+  y: "option1"
+};
+const types = {
+  x: Number,
+  y: ["option1", "option2", "option3"],
+  z: Boolean,
+  t: Date
+};
+const [params, setParams] = useUrlSearchParams(initial, types);
 
-// `params.x` will always be number (or NaN)
-// `params.y` will be either empty or one of ["option1", "option2", "option3"]
+// `params.x` will be number (or NaN)
+// `params.y` will be one of ["option1", "option2", "option3"] (can be `undefined` if not specified in `initial`)
 // `params.z` will be one of [undefined, true, false]
+// `params.t` will be a Date object (can be Invalid Date)
 ```
 
 ## Complex data structure
@@ -103,7 +112,8 @@ function App() {
     - `String` (default)
     - `Number`
     - `Bool`
-    - Array of available values (like enum)
+    - `Date`
+    - Array of available string values (like enum)
     - A custom resolver function
 
 ## Read more

@@ -1,6 +1,6 @@
 import React from "react";
 
-const SUPPORTED_PARAMS_TYPES = [Number, String, Boolean];
+const SUPPORTED_PARAMS_TYPES = [Number, String, Boolean, Date];
 
 function setQueryToCurrentUrl(params) {
   const url = new URL(window.location.href);
@@ -13,6 +13,10 @@ function setQueryToCurrentUrl(params) {
         value.forEach(valueItem => {
           url.searchParams.append(key, valueItem);
         });
+      } else if (value instanceof Date) {
+        if (!isNaN(value.getTime())) {
+          url.searchParams.set(key, value.toISOString());
+        }
       } else if (typeof value === "object") {
         url.searchParams.set(key, JSON.stringify(value));
       } else {
@@ -146,6 +150,9 @@ function parseValue(key, value, types, defaultParams) {
     return value === undefined
       ? getBooleanValue(defaultParams[key])
       : getBooleanValue(value);
+  }
+  if (type === Date) {
+    return new Date(value);
   }
   if (Array.isArray(type)) {
     const defaultValue = defaultParams[key];
