@@ -134,39 +134,32 @@ export function useUrlSearchParams(initial = {}, types) {
   return [params, setParams];
 }
 
-function parseValue(key, value, types, defaultParams) {
-  if (!types) return value;
+const booleanValues = {
+  true: true,
+  false: false
+};
+
+function parseValue(key, _value, types, defaultParams) {
+  if (!types) return _value;
   const type = types[key];
+  const value = _value === undefined ? defaultParams[key] : _value;
 
   if (type === Number) {
-    return value === undefined ? Number(defaultParams[key]) : Number(value);
+    return Number(value);
   }
   if (type === Boolean) {
-    return value === undefined
-      ? getBooleanValue(defaultParams[key])
-      : getBooleanValue(value);
+    return booleanValues[value];
   }
   if (type === Date) {
     return new Date(value);
   }
   if (Array.isArray(type)) {
-    const defaultValue = defaultParams[key];
-    if (value === undefined) {
-      // eslint-disable-next-line eqeqeq
-      return type.find(item => item == defaultValue);
-    } else {
-      // eslint-disable-next-line eqeqeq
-      return type.find(item => item == value);
-    }
+    // eslint-disable-next-line eqeqeq
+    return type.find(item => item == value) || defaultParams[key];
   }
   if (typeof type === "function") {
     return type(value);
   }
-  return value;
-}
 
-function getBooleanValue(value) {
-  if (value === "true") return true;
-  if (value === "false") return false;
-  return undefined;
+  return value;
 }

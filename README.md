@@ -61,16 +61,16 @@ const initial = {
 };
 const types = {
   x: Number,
-  y: ["option1", "option2", "option3"],
-  z: Boolean,
-  t: Date
+  y: Boolean,
+  z: Date,
+  t: ["option1", "option2", "option3"]
 };
 const [params, setParams] = useUrlSearchParams(initial, types);
 
 // `params.x` will be number (or NaN)
-// `params.y` will be one of ["option1", "option2", "option3"] (can be `undefined` if not specified in `initial`)
-// `params.z` will be one of [undefined, true, false]
-// `params.t` will be a Date object (can be Invalid Date)
+// `params.y` will be one of [undefined, true, false]
+// `params.z` will be instance of Date (can be Invalid Date)
+// `params.t` will be one of ["option1", "option2", "option3"] (can be `undefined` if not specified in `initial`)
 ```
 
 ## Complex data structure
