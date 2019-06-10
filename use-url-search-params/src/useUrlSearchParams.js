@@ -59,11 +59,6 @@ function validateTypes(types = {}) {
   }
 }
 
-/**
- *
- * @param {object} initial
- * @param {object} types
- */
 export function useUrlSearchParams(initial = {}, types) {
   if (types) validateTypes(types);
 

@@ -3,7 +3,7 @@ import "./App.css";
 import { useUrlSearchParams } from "use-url-search-params";
 
 function App() {
-  const initial = { checked: true };
+  const initial = { checked: true, date: new Date() };
   const types = {
     selectedOption: ["option1", "option2", "option3"],
     checked: Boolean,
@@ -17,7 +17,9 @@ function App() {
     }
   };
   const [queries, setQueries] = useUrlSearchParams(initial, types);
+
   console.log("queries", queries);
+
   return (
     <div className="App">
       <h2>
