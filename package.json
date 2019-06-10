@@ -1,6 +1,6 @@
 {
   "name": "use-url-search-params",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "main": "dist/useUrlSearchParams.js",
   "typings": "dist/useUrlSearchParams.d.ts",
   "author": "rudyhuynh <rudyhuynh@",
