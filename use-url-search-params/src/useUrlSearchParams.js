@@ -92,7 +92,7 @@ export function useUrlSearchParams(initial = {}, types) {
       }
     });
 
-    const params = {};
+    const params = initial;
 
     result.forEach(([key, value]) => {
       params[key] = parseValue(key, value, types, initial);

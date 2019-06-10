@@ -11,7 +11,7 @@ declare module "use-url-search-params" {
    *
    * @param initial initial value for query object
    * @param types help to resolve value from URL query before map to query object
-   * @returns `[query, setQuery]`
+   * @returns `[queries, setQueries]`
    */
   export function useUrlSearchParams(
     initial: InitialType,

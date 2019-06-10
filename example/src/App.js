@@ -18,7 +18,9 @@ function App() {
   };
   const [queries, setQueries] = useUrlSearchParams(initial, types);
 
-  console.log("queries", queries);
+  React.useEffect(() => {
+    console.log("queries changed", queries);
+  }, [queries]);
 
   return (
     <div className="App">
