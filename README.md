@@ -8,7 +8,7 @@ A React Hook to use [URL query string](https://en.wikipedia.org/wiki/Query_strin
 
 - Your app need to persist its state after user refresh the page (used for simple, non-sensitive data).
 - Some page settings (ex: table filter, sorting, paging, etc.) should be saved in the URL so that user can easily pass to others.
-- You want to do something (refresh new data, etc.) every time some URL query value changes.
+- You want to do something (request new data, etc.) every time some URL query value changes.
 - Combine all of the above with a URL query as a single source of truth.
 
 ## Installation
@@ -75,9 +75,9 @@ const [params, setParams] = useUrlSearchParams(initial, types);
 
 ## Complex data structure
 
-Although you can use `JSON.parse()` and `JSON.stringify()` to get/set arbitrary serializable data to URL query, it is not recommended. URL query is a good place to store and persist page settings as a key/value pair such as table filter, sorting, paging, etc. We should keep it that way for simplicity. **For complex data structure, you should consider using other state management for better performance and flexibility.**
+Although you can use `JSON.parse()` and `JSON.stringify()` to get/set arbitrary serializable data to URL query, it is not recommended. URL query is a good place to store and persist page settings as key/value pairs such as table filter, sorting, paging, etc. We should keep it that way for simplicity. **For complex data structure, you should consider using other state management for better performance, security and flexibility.**
 
-> **WARNING**: Be aware of XSS attack. Be careful to validate values from URL query before using it (by using `types` - the second parameter passed to `useUrlSearchParams()` or validate them yourself if neccessary)
+> **WARNING**: Be aware of XSS attack. Be careful to validate values from URL query before using it by either using `types` - the second parameter passed to `useUrlSearchParams()` or validate them yourself if neccessary.
 
 But if you still insist, here is an example:
 
