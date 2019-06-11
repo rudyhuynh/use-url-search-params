@@ -6,7 +6,7 @@ A React Hook to use [URL query string](https://en.wikipedia.org/wiki/Query_strin
 
 ## Why you need this
 
-- Your app need to persist its state after user refresh the page.
+- Your app need to persist its state after user refresh the page (used for simple, non-sensitive data).
 - Some page settings (ex: table filter, sorting, paging, etc.) should be saved in the URL so that user can easily pass to others.
 - You want to do something (refresh new data, etc.) every time some URL query value changes.
 - Combine all of the above with a URL query as a single source of truth.
