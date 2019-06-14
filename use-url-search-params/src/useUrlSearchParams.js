@@ -64,8 +64,6 @@ export function useUrlSearchParams(initial = {}, types) {
 
   const [, forceUpdate] = React.useState();
 
-  console.log("window.location.search!!", window.location.search);
-
   const urlSearchParams = React.useMemo(() => {
     return new URLSearchParams(window.location.search);
   }, [window.location.search]);
