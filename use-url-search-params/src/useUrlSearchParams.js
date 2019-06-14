@@ -63,10 +63,11 @@ export function useUrlSearchParams(initial = {}, types) {
   if (types) validateTypes(types);
 
   const [locationSearch, setLocationSearch] = React.useState("");
+  console.log("locationSearch", locationSearch);
 
   const urlSearchParams = React.useMemo(() => {
     return new URLSearchParams(window.location.search);
-  }, [locationSearch]);
+  }, [/*locationSearch*/ ((window || {}).location || {}).search]);
 
   const params = React.useMemo(() => {
     let result = [];
@@ -105,8 +106,10 @@ export function useUrlSearchParams(initial = {}, types) {
     const url = setQueryToCurrentUrl(params);
     window.history.pushState({}, "", url);
 
+    console.log("window.location.search", window.location.search);
+    console.log("\t locationSearch", locationSearch);
     if (urlSearchParams.toString() !== url.searchParams.toString()) {
-      setLocationSearch(window.location.search);
+      setLocationSearch({});
     }
   }
 
@@ -123,7 +126,7 @@ export function useUrlSearchParams(initial = {}, types) {
 
   React.useEffect(() => {
     const onPopState = event => {
-      setLocationSearch(window.location.search);
+      setLocationSearch({});
     };
     window.addEventListener("popstate", onPopState);
     return () => {

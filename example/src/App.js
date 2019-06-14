@@ -1,9 +1,10 @@
 import React from "react";
 import "./App.css";
 import { useUrlSearchParams } from "use-url-search-params";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
-function App() {
-  const initial = { checked: true, date: new Date() };
+function App({ history }) {
+  const initial = { checked: true, date: new Date(2019, 6, 1) };
   const types = {
     selectedOption: ["option1", "option2", "option3"],
     checked: Boolean,
@@ -24,6 +25,13 @@ function App() {
 
   return (
     <div className="App">
+      <button
+        onClick={() => {
+          history.push("/about?checked=true");
+        }}
+      >
+        Change Route By React Router
+      </button>
       <h2>
         Example of{" "}
         <a href="https://github.com/rudyhuynh/use-url-search-params">
@@ -86,4 +94,30 @@ function App() {
   );
 }
 
-export default App;
+function AppRouter() {
+  return (
+    <Router>
+      <div>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/about/">About</Link>
+            </li>
+            <li>
+              <Link to="/users/?checked=false">Users</Link>
+            </li>
+          </ul>
+        </nav>
+
+        <Route path="/" exact component={App} />
+        <Route path="/about/" component={App} />
+        <Route path="/users/" component={App} />
+      </div>
+    </Router>
+  );
+}
+
+export default AppRouter;
