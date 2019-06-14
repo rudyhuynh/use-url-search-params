@@ -62,12 +62,13 @@ function validateTypes(types = {}) {
 export function useUrlSearchParams(initial = {}, types) {
   if (types) validateTypes(types);
 
-  const [locationSearch, setLocationSearch] = React.useState("");
-  console.log("locationSearch", locationSearch);
+  const [, forceUpdate] = React.useState();
+
+  console.log("window.location.search!!", window.location.search);
 
   const urlSearchParams = React.useMemo(() => {
     return new URLSearchParams(window.location.search);
-  }, [/*locationSearch*/ ((window || {}).location || {}).search]);
+  }, [window.location.search]);
 
   const params = React.useMemo(() => {
     let result = [];
@@ -106,10 +107,8 @@ export function useUrlSearchParams(initial = {}, types) {
     const url = setQueryToCurrentUrl(params);
     window.history.pushState({}, "", url);
 
-    console.log("window.location.search", window.location.search);
-    console.log("\t locationSearch", locationSearch);
     if (urlSearchParams.toString() !== url.searchParams.toString()) {
-      setLocationSearch({});
+      forceUpdate({});
     }
   }
 
@@ -118,7 +117,7 @@ export function useUrlSearchParams(initial = {}, types) {
       ...initial,
       ...params
     });
-  }, []);
+  }, [params]);
 
   const setParams = params => {
     redirectToNewSearchParams(params);
@@ -126,7 +125,7 @@ export function useUrlSearchParams(initial = {}, types) {
 
   React.useEffect(() => {
     const onPopState = event => {
-      setLocationSearch({});
+      forceUpdate({});
     };
     window.addEventListener("popstate", onPopState);
     return () => {

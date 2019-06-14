@@ -101,13 +101,15 @@ function AppRouter() {
         <nav>
           <ul>
             <li>
-              <Link to="/">/</Link>
+              <Link to="/">Link to /</Link>
             </li>
             <li>
-              <Link to="/about/">/about</Link>
+              <Link to="/about/">Link to /about</Link>
             </li>
             <li>
-              <Link to="/users/?checked=false">/users/?checked=false</Link>
+              <Link to="/users/?checked=false">
+                Link to /users/?checked=false
+              </Link>
             </li>
           </ul>
         </nav>
