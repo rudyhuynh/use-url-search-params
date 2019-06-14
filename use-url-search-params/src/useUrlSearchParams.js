@@ -62,6 +62,13 @@ function validateTypes(types = {}) {
 export function useUrlSearchParams(initial = {}, types) {
   if (types) validateTypes(types);
 
+  /**
+   * The main idea of this hook is to make things response to change of `window.location.search`,
+   * so no need for introducing new state (in the mean time).
+   * Whenever `window.location.search` is changed but  not cause re-render, call `forceUpdate()`.
+   * Whenever the component - user of this hook - re-render, this hook should return
+   * the query object that corresponse to the current `window.location.search`
+   */
   const [, forceUpdate] = React.useState();
 
   const urlSearchParams = React.useMemo(() => {
