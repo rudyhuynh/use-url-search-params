@@ -106,7 +106,7 @@ function App() {
 
 ## React Router
 
-Should just work with React Router or any routing system as long as your component re-render on any route changes.
+Should just work with React Router or any routing system. Just make sure that your component re-render whenever route changes.
 
 ## API
 
