@@ -129,7 +129,7 @@ export function useUrlSearchParams(initial = {}, types) {
   };
 
   React.useEffect(() => {
-    const onPopState = event => {
+    const onPopState = () => {
       forceUpdate({});
     };
     window.addEventListener("popstate", onPopState);
