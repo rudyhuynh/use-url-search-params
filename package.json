@@ -8,5 +8,7 @@
   "dependencies": {},
   "peerDependencies": {
     "react": "^16.8.6"
-  }
+  },
+  "repository": "github:rudyhuynh/use-url-search-params",
+  "bugs": "https://github.com/rudyhuynh/use-url-search-params/issues"
 }
