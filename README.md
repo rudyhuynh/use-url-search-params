@@ -104,6 +104,10 @@ function App() {
 }
 ```
 
+## React Router
+
+Should just work with React Router or any routing system as long as your component re-render on any route changes.
+
 ## API
 
 - **useUrlSearchParams([initial, types])**
