@@ -2,7 +2,7 @@
 
 A React Hook to use [URL query string](https://en.wikipedia.org/wiki/Query_string) as a state management
 
-[Demo](https://rudyhuynh.github.io/use-url-search-params))
+[Demo](https://rudyhuynh.github.io/use-url-search-params)
 
 ## Why you need this
 
