@@ -96,7 +96,7 @@ function App({ history }) {
 
 function AppRouter() {
   return (
-    <Router>
+    <Router basename="/use-url-search-params">
       <div>
         <nav>
           <ul>
