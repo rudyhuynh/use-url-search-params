@@ -1,9 +1,8 @@
 import React from "react";
 import "./App.css";
 import { useUrlSearchParams } from "use-url-search-params";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
-function App({ history }) {
+function App() {
   const initial = { checked: true, date: new Date(2019, 6, 1) };
   const types = {
     selectedOption: ["option1", "option2", "option3"],
@@ -20,18 +19,11 @@ function App({ history }) {
   const [queries, setQueries] = useUrlSearchParams(initial, types);
 
   React.useEffect(() => {
-    console.log("queries changed", queries);
-  }, [queries]);
+    console.log("checked:", queries.checked);
+  }, [queries.checked]);
 
   return (
     <div className="App">
-      <button
-        onClick={() => {
-          history.push("/about?checked=true");
-        }}
-      >
-        Change Route By React Router
-      </button>
       <h2>
         Example of{" "}
         <a href="https://github.com/rudyhuynh/use-url-search-params">
@@ -45,7 +37,7 @@ function App({ history }) {
         </a>
       </div>
       <main>
-        <label>
+        <label style={{ userSelect: "none" }}>
           <input
             type="checkbox"
             checked={queries.checked === true}
@@ -94,32 +86,4 @@ function App({ history }) {
   );
 }
 
-function AppRouter() {
-  return (
-    <Router basename="/use-url-search-params">
-      <div>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Link to /</Link>
-            </li>
-            <li>
-              <Link to="/about/">Link to /about</Link>
-            </li>
-            <li>
-              <Link to="/users/?checked=false">
-                Link to /users/?checked=false
-              </Link>
-            </li>
-          </ul>
-        </nav>
-
-        <Route path="/" exact component={App} />
-        <Route path="/about/" component={App} />
-        <Route path="/users/" component={App} />
-      </div>
-    </Router>
-  );
-}
-
-export default AppRouter;
+export default App;

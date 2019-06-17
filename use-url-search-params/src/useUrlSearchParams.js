@@ -2,6 +2,11 @@ import React from "react";
 
 const SUPPORTED_PARAMS_TYPES = [Number, String, Boolean, Date];
 
+/**
+ *
+ * @param {object} params
+ * @returns {URL}
+ */
 function setQueryToCurrentUrl(params) {
   const url = new URL(window.location.href);
 
@@ -71,6 +76,9 @@ export function useUrlSearchParams(initial = {}, types) {
    */
   const [, forceUpdate] = React.useState();
 
+  /**
+   * @type {URLSearchParams}
+   */
   const urlSearchParams = React.useMemo(() => {
     return new URLSearchParams(window.location.search);
   }, [window.location.search]);
@@ -117,7 +125,7 @@ export function useUrlSearchParams(initial = {}, types) {
     }
   }
 
-  React.useState(() => {
+  React.useEffect(() => {
     redirectToNewSearchParams({
       ...initial,
       ...params
