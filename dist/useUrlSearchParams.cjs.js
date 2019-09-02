@@ -181,7 +181,7 @@ function useUrlSearchParams() {
 
 
   var urlSearchParams = React.useMemo(function () {
-    return new URLSearchParams(typeof window !== "undefined" ? window.location.href : "");
+    return new URLSearchParams(typeof window !== "undefined" ? window.location.search : "");
   }, [typeof window !== "undefined" ? window.location.search : null]);
   var params = React.useMemo(function () {
     var result = [];
