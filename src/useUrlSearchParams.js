@@ -8,7 +8,7 @@ const SUPPORTED_PARAMS_TYPES = [Number, String, Boolean, Date];
  * @returns {URL}
  */
 function setQueryToCurrentUrl(params) {
-  const url = new URL(window.location.href);
+  const url = new URL(window ? window.location.href : "");
 
   Object.keys(params).forEach(key => {
     const value = params[key];
@@ -80,8 +80,8 @@ export function useUrlSearchParams(initial = {}, types) {
    * @type {URLSearchParams}
    */
   const urlSearchParams = React.useMemo(() => {
-    return new URLSearchParams(window.location.search);
-  }, [window.location.search]);
+    return new URLSearchParams(window ? window.location.href : "");
+  }, [window ? window.location.search : null]);
 
   const params = React.useMemo(() => {
     let result = [];
@@ -118,7 +118,7 @@ export function useUrlSearchParams(initial = {}, types) {
 
   function redirectToNewSearchParams(params) {
     const url = setQueryToCurrentUrl(params);
-    window.history.pushState({}, "", url);
+    window && window.history.pushState({}, "", url);
 
     if (urlSearchParams.toString() !== url.searchParams.toString()) {
       forceUpdate({});
@@ -140,9 +140,9 @@ export function useUrlSearchParams(initial = {}, types) {
     const onPopState = () => {
       forceUpdate({});
     };
-    window.addEventListener("popstate", onPopState);
+    window && window.addEventListener("popstate", onPopState);
     return () => {
-      window.removeEventListener("popstate", onPopState);
+      window && window.removeEventListener("popstate", onPopState);
     };
   }, []);
 
