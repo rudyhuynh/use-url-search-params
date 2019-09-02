@@ -83,7 +83,7 @@ export function useUrlSearchParams(initial = {}, types) {
    */
   const urlSearchParams = React.useMemo(() => {
     return new URLSearchParams(
-      typeof window !== "undefined" ? window.location.href : ""
+      typeof window !== "undefined" ? window.location.search : ""
     );
   }, [typeof window !== "undefined" ? window.location.search : null]);
 
