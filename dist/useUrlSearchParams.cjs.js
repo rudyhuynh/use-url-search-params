@@ -115,7 +115,7 @@ var SUPPORTED_PARAMS_TYPES = [Number, String, Boolean, Date];
  */
 
 function setQueryToCurrentUrl(params) {
-  var url = new URL(window ? window.location.href : "");
+  var url = new URL(typeof window !== "undefined" ? window.location.href : "");
   Object.keys(params).forEach(function (key) {
     var value = params[key];
 
@@ -181,8 +181,8 @@ function useUrlSearchParams() {
 
 
   var urlSearchParams = React.useMemo(function () {
-    return new URLSearchParams(window ? window.location.href : "");
-  }, [window ? window.location.search : null]);
+    return new URLSearchParams(typeof window !== "undefined" ? window.location.href : "");
+  }, [typeof window !== "undefined" ? window.location.search : null]);
   var params = React.useMemo(function () {
     var result = [];
     var _iteratorNormalCompletion = true;
@@ -242,7 +242,7 @@ function useUrlSearchParams() {
 
   function redirectToNewSearchParams(params) {
     var url = setQueryToCurrentUrl(params);
-    window && window.history.pushState({}, "", url);
+    typeof window !== "undefined" && window.history.pushState({}, "", url);
 
     if (urlSearchParams.toString() !== url.searchParams.toString()) {
       forceUpdate({});
@@ -262,9 +262,9 @@ function useUrlSearchParams() {
       forceUpdate({});
     };
 
-    window && window.addEventListener("popstate", onPopState);
+    typeof window !== "undefined" && window.addEventListener("popstate", onPopState);
     return function () {
-      window && window.removeEventListener("popstate", onPopState);
+      typeof window !== "undefined" && window.removeEventListener("popstate", onPopState);
     };
   }, []);
   return [params, setParams];
