@@ -39,27 +39,29 @@ function ownKeys(object, enumerableOnly) {
   var keys = Object.keys(object);
 
   if (Object.getOwnPropertySymbols) {
-    keys.push.apply(keys, Object.getOwnPropertySymbols(object));
+    var symbols = Object.getOwnPropertySymbols(object);
+    if (enumerableOnly) symbols = symbols.filter(function (sym) {
+      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+    });
+    keys.push.apply(keys, symbols);
   }
 
-  if (enumerableOnly) keys = keys.filter(function (sym) {
-    return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-  });
   return keys;
 }
 
 function _objectSpread2(target) {
   for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i] != null ? arguments[i] : {};
+
     if (i % 2) {
-      var source = arguments[i] != null ? arguments[i] : {};
       ownKeys(source, true).forEach(function (key) {
         _defineProperty(target, key, source[key]);
       });
     } else if (Object.getOwnPropertyDescriptors) {
-      Object.defineProperties(target, Object.getOwnPropertyDescriptors(arguments[i]));
+      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
     } else {
       ownKeys(source).forEach(function (key) {
-        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(arguments[i], key));
+        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
       });
     }
   }
@@ -113,7 +115,7 @@ var SUPPORTED_PARAMS_TYPES = [Number, String, Boolean, Date];
  */
 
 function setQueryToCurrentUrl(params) {
-  var url = new URL(window.location.href);
+  var url = new URL(typeof window !== "undefined" ? window.location.href : "");
   Object.keys(params).forEach(function (key) {
     var value = params[key];
 
@@ -179,8 +181,8 @@ function useUrlSearchParams() {
 
 
   var urlSearchParams = React.useMemo(function () {
-    return new URLSearchParams(window.location.search);
-  }, [window.location.search]);
+    return new URLSearchParams(typeof window !== "undefined" ? window.location.search : "");
+  }, [typeof window !== "undefined" ? window.location.search : null]);
   var params = React.useMemo(function () {
     var result = [];
     var _iteratorNormalCompletion = true;
@@ -240,7 +242,7 @@ function useUrlSearchParams() {
 
   function redirectToNewSearchParams(params) {
     var url = setQueryToCurrentUrl(params);
-    window.history.pushState({}, "", url);
+    typeof window !== "undefined" && window.history.pushState({}, "", url);
 
     if (urlSearchParams.toString() !== url.searchParams.toString()) {
       forceUpdate({});
@@ -260,9 +262,9 @@ function useUrlSearchParams() {
       forceUpdate({});
     };
 
-    window.addEventListener("popstate", onPopState);
+    typeof window !== "undefined" && window.addEventListener("popstate", onPopState);
     return function () {
-      window.removeEventListener("popstate", onPopState);
+      typeof window !== "undefined" && window.removeEventListener("popstate", onPopState);
     };
   }, []);
   return [params, setParams];
