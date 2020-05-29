@@ -1,4 +1,6 @@
 # `useUrlSearchParams()`
+[![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE)
+
 
 A React Hook to use [URL query string](https://en.wikipedia.org/wiki/Query_string) as a state management
 
