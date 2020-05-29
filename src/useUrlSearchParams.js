@@ -1,4 +1,5 @@
 import React from "react";
+import { getWindow } from "./mockWindow";
 
 const SUPPORTED_PARAMS_TYPES = [Number, String, Boolean, Date];
 
@@ -8,16 +9,15 @@ const SUPPORTED_PARAMS_TYPES = [Number, String, Boolean, Date];
  * @returns {URL}
  */
 function setQueryToCurrentUrl(params) {
-  const url = new URL(
-    typeof window !== "undefined" ? window.location.href : ""
-  );
+  const { URL } = getWindow();
+  const url = new URL(getWindow().location.href);
 
-  Object.keys(params).forEach(key => {
+  Object.keys(params).forEach((key) => {
     const value = params[key];
     if (value !== null && value !== undefined) {
       if (Array.isArray(value)) {
         url.searchParams.delete(key);
-        value.forEach(valueItem => {
+        value.forEach((valueItem) => {
           url.searchParams.append(key, valueItem);
         });
       } else if (value instanceof Date) {
@@ -40,28 +40,18 @@ function isNoneEmptyPrimitiveArray(input) {
   return (
     Array.isArray(input) &&
     input.length > 0 &&
-    input.every(
-      item =>
-        typeof item === "number" ||
-        typeof item === "string" ||
-        typeof item === "boolean"
-    )
+    input.every((item) => typeof item === "number" || typeof item === "string" || typeof item === "boolean")
   );
 }
 
 function validateTypes(types = {}) {
   const isValidTypes = Object.values(types).every(
-    type =>
-      SUPPORTED_PARAMS_TYPES.includes(type) ||
-      isNoneEmptyPrimitiveArray(type) ||
-      typeof type === "function"
+    (type) => SUPPORTED_PARAMS_TYPES.includes(type) || isNoneEmptyPrimitiveArray(type) || typeof type === "function"
   );
 
   if (!isValidTypes) {
     throw new Error(
-      `Unsupported param types. Must be one of [${SUPPORTED_PARAMS_TYPES.map(
-        item => item.name
-      ).join(", ")}]`
+      `Unsupported param types. Must be one of [${SUPPORTED_PARAMS_TYPES.map((item) => item.name).join(", ")}]`
     );
   }
 }
@@ -78,21 +68,21 @@ export function useUrlSearchParams(initial = {}, types) {
    */
   const [, forceUpdate] = React.useState();
 
+  const locationSearch = getWindow().location.search;
+
   /**
    * @type {URLSearchParams}
    */
   const urlSearchParams = React.useMemo(() => {
-    return new URLSearchParams(
-      typeof window !== "undefined" ? window.location.search : ""
-    );
-  }, [typeof window !== "undefined" ? window.location.search : null]);
+    return new URLSearchParams(locationSearch);
+  }, [locationSearch]);
 
   const params = React.useMemo(() => {
     let result = [];
     for (let item of urlSearchParams) {
       result.push({
         key: item[0],
-        value: item[1]
+        value: item[1],
       });
     }
 
@@ -102,7 +92,7 @@ export function useUrlSearchParams(initial = {}, types) {
       return acc;
     }, {});
 
-    result = Object.keys(result).map(key => {
+    result = Object.keys(result).map((key) => {
       const valueGroup = result[key];
       if (valueGroup.length === 1) {
         return [key, valueGroup[0].value];
@@ -122,7 +112,7 @@ export function useUrlSearchParams(initial = {}, types) {
 
   function redirectToNewSearchParams(params) {
     const url = setQueryToCurrentUrl(params);
-    typeof window !== "undefined" && window.history.pushState({}, "", url);
+    getWindow().history.pushState({}, "", url);
 
     if (urlSearchParams.toString() !== url.searchParams.toString()) {
       forceUpdate({});
@@ -132,11 +122,11 @@ export function useUrlSearchParams(initial = {}, types) {
   React.useEffect(() => {
     redirectToNewSearchParams({
       ...initial,
-      ...params
+      ...params,
     });
   }, [params]);
 
-  const setParams = params => {
+  const setParams = (params) => {
     redirectToNewSearchParams(params);
   };
 
@@ -144,11 +134,9 @@ export function useUrlSearchParams(initial = {}, types) {
     const onPopState = () => {
       forceUpdate({});
     };
-    typeof window !== "undefined" &&
-      window.addEventListener("popstate", onPopState);
+    getWindow().addEventListener("popstate", onPopState);
     return () => {
-      typeof window !== "undefined" &&
-        window.removeEventListener("popstate", onPopState);
+      getWindow().removeEventListener("popstate", onPopState);
     };
   }, []);
 
@@ -157,7 +145,7 @@ export function useUrlSearchParams(initial = {}, types) {
 
 const booleanValues = {
   true: true,
-  false: false
+  false: false,
 };
 
 function parseValue(key, _value, types, defaultParams) {
@@ -176,7 +164,7 @@ function parseValue(key, _value, types, defaultParams) {
   }
   if (Array.isArray(type)) {
     // eslint-disable-next-line eqeqeq
-    return type.find(item => item == value) || defaultParams[key];
+    return type.find((item) => item == value) || defaultParams[key];
   }
   if (typeof type === "function") {
     return type(value);
