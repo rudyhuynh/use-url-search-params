@@ -1,5 +1,5 @@
 # `useUrlSearchParams()`
-[![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE)
+[![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/rudyhuynh/use-url-search-params/blob/master/License)
 
 
 A React Hook to use [URL query string](https://en.wikipedia.org/wiki/Query_string) as a state management
