@@ -1,6 +1,6 @@
 {
   "name": "use-url-search-params",
-  "version": "2.3.9",
+  "version": "2.3.10",
   "main": "dist/useUrlSearchParams.cjs.js",
   "module": "dist/useUrlSearchParams.esm.js",
   "browser": "dist/useUrlSearchParams.umd.js",
