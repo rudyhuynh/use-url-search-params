@@ -3,7 +3,7 @@ import { useUrlSearchParams } from "./main";
 import { setWindow, getWindow } from "./mockWindow";
 import { JSDOM } from "jsdom";
 
-xtest("non-browser environment", () => {
+test("non-browser environment", () => {
   const error = renderHook(() =>
     useUrlSearchParams(
       {
@@ -34,6 +34,7 @@ describe("browser environment", () => {
     const { result } = renderHook(() => useUrlSearchParams({ name: "value" }));
 
     let [param] = result.current;
+
     expect(param.name).toBe("value");
     expect(getWindow().location.search).toBe("?name=value");
 
@@ -64,5 +65,19 @@ describe("browser environment", () => {
 
     expect(param.checked).toBe(false);
     expect(getWindow().location.search).toBe("?checked=false");
+  });
+
+  test("track history", () => {
+    expect(getWindow().history.length).toBe(1);
+    const { result } = renderHook(() => useUrlSearchParams({ name: "value" }));
+
+    expect(getWindow().history.length).toBe(2);
+
+    act(() => {
+      const [, setParams] = result.current;
+      setParams({ name: "newValue" });
+    });
+
+    expect(getWindow().history.length).toBe(3);
   });
 });
