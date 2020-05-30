@@ -27,6 +27,8 @@
     "sync": "npx npm-link-watch ./dist && cd ./example && npx npm-link-watch use-url-search-params",
     "restore-sync": "cd ./example && npx npm-unlink-watch use-url-search-params",
     "test": "NODE_ENV=test jest --no-cache",
+    "test:watch": "NODE_ENV=test jest --no-cache --watch",
+    "test:coverage": "NODE_ENV=test jest --no-cache --coverage",
     "eslint": "eslint ./src",
     "build_publish": "yarn build && npm publish"
   },

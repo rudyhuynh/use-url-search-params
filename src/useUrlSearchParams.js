@@ -101,7 +101,7 @@ export function useUrlSearchParams(initial = {}, types) {
       }
     });
 
-    const params = initial;
+    const params = { ...initial };
 
     result.forEach(([key, value]) => {
       params[key] = parseValue(key, value, types, initial);
