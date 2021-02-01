@@ -17,6 +17,6 @@ declare module "use-url-search-params" {
   export function useUrlSearchParams(
     initial: InitialType,
     types: TypesType,
-    replace: boolean
+    replace?: boolean
   ): [InitialType, (nextQuery: InitialType) => void];
 }
