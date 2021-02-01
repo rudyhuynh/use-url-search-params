@@ -114,9 +114,9 @@ export function useUrlSearchParams(initial = {}, types, replace = false) {
     const url = setQueryToCurrentUrl(params);
 
     if (getWindow().location.search !== url.search) {
-      if(replace) {
+      if (replace) {
         getWindow().history.replaceState({}, "", url);
-      }else {
+      } else {
         getWindow().history.pushState({}, "", url);
       }
     }
