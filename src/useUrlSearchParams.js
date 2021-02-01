@@ -56,7 +56,7 @@ function validateTypes(types = {}) {
   }
 }
 
-export function useUrlSearchParams(initial = {}, types) {
+export function useUrlSearchParams(initial = {}, types, replace = false) {
   if (types) validateTypes(types);
 
   /**
@@ -114,7 +114,11 @@ export function useUrlSearchParams(initial = {}, types) {
     const url = setQueryToCurrentUrl(params);
 
     if (getWindow().location.search !== url.search) {
-      getWindow().history.pushState({}, "", url);
+      if(replace) {
+        getWindow().history.replaceState({}, "", url);
+      }else {
+        getWindow().history.pushState({}, "", url);
+      }
     }
     if (urlSearchParams.toString() !== url.searchParams.toString()) {
       forceUpdate({});
