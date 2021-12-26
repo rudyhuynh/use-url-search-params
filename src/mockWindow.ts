@@ -5,13 +5,13 @@ const listeners = {
 };
 
 let mockWindow = {
-  URL: function () {
-    this.searchParams = {
+  URL: {
+    searchParams: {
       set: noop,
       append: noop,
       delete: noop,
-    };
-  },
+    },
+  } as any,
   location: {
     href: "",
     search: "",

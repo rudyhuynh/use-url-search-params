@@ -1,19 +1,15 @@
-import React from "react";
+import { useEffect, useState, useMemo } from "react";
 import { getWindow } from "./mockWindow";
+import { InitialType, TypesValue, SupportedType, TypesType } from "./typedefs";
 
 const SUPPORTED_PARAMS_TYPES = [Number, String, Boolean, Date];
 
-/**
- *
- * @param {object} params
- * @returns {URL}
- */
-function setQueryToCurrentUrl(params) {
+function setQueryToCurrentUrl(params: InitialType): URL {
   const { URL } = getWindow();
   const url = new URL(getWindow().location.href);
 
   Object.keys(params).forEach((key) => {
-    const value = params[key];
+    const value: any = params[key];
     if (value !== null && value !== undefined) {
       if (Array.isArray(value)) {
         url.searchParams.delete(key);
@@ -44,9 +40,12 @@ function isNoneEmptyPrimitiveArray(input) {
   );
 }
 
-function validateTypes(types = {}) {
-  const isValidTypes = Object.values(types).every(
-    (type) => SUPPORTED_PARAMS_TYPES.includes(type) || isNoneEmptyPrimitiveArray(type) || typeof type === "function"
+function validateTypes(types: TypesType = {}): void {
+  const isValidTypes = Object.values<TypesValue>(types).every(
+    (type: TypesValue) =>
+      SUPPORTED_PARAMS_TYPES.includes(type as SupportedType) ||
+      isNoneEmptyPrimitiveArray(type) ||
+      typeof type === "function"
   );
 
   if (!isValidTypes) {
@@ -56,7 +55,10 @@ function validateTypes(types = {}) {
   }
 }
 
-export function useUrlSearchParams(initial = {}, types) {
+export function useUrlSearchParams(
+  initial: InitialType = {},
+  types: TypesType
+): [InitialType, (nextQuery: InitialType) => void] {
   if (types) validateTypes(types);
 
   /**
@@ -66,25 +68,23 @@ export function useUrlSearchParams(initial = {}, types) {
    * Whenever the component - user of this hook - re-render, this hook should return
    * the query object that corresponse to the current `window.location.search`
    */
-  const [, forceUpdate] = React.useState();
+  const [, forceUpdate] = useState<any>();
 
   const locationSearch = getWindow().location.search;
 
-  /**
-   * @type {URLSearchParams}
-   */
-  const urlSearchParams = React.useMemo(() => {
+  const urlSearchParams = useMemo<URLSearchParams>(() => {
     return new URLSearchParams(locationSearch);
   }, [locationSearch]);
 
-  const params = React.useMemo(() => {
+  const params = useMemo<InitialType>(() => {
     let result = [];
-    for (let item of urlSearchParams) {
+
+    urlSearchParams.forEach((value, key) => {
       result.push({
-        key: item[0],
-        value: item[1],
+        key,
+        value,
       });
-    }
+    });
 
     //group by key
     result = result.reduce((acc, val) => {
@@ -110,18 +110,18 @@ export function useUrlSearchParams(initial = {}, types) {
     return params;
   }, [urlSearchParams]);
 
-  function redirectToNewSearchParams(params) {
+  function redirectToNewSearchParams(params: InitialType): void {
     const url = setQueryToCurrentUrl(params);
 
     if (getWindow().location.search !== url.search) {
-      getWindow().history.pushState({}, "", url);
+      getWindow().history.pushState({}, "", url.toString());
     }
     if (urlSearchParams.toString() !== url.searchParams.toString()) {
       forceUpdate({});
     }
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     redirectToNewSearchParams({
       ...initial,
       ...params,
@@ -132,7 +132,7 @@ export function useUrlSearchParams(initial = {}, types) {
     redirectToNewSearchParams(params);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     const onPopState = () => {
       forceUpdate({});
     };

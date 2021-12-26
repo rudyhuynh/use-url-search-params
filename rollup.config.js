@@ -1,12 +1,12 @@
-import resolve from "rollup-plugin-node-resolve";
-import commonjs from "rollup-plugin-commonjs";
-import babel from "rollup-plugin-babel";
+import resolve from "@rollup/plugin-node-resolve";
+import commonjs from "@rollup/plugin-commonjs";
+import typescript from "@rollup/plugin-typescript";
 import pkg from "./package.json";
 import packageJson from "./package.json";
 
 const { name, version, dependencies = {}, peerDependencies = {} } = packageJson;
 
-const input = "src/main.js";
+const input = "src/main.ts";
 const external = Object.keys(Object.assign({}, dependencies, peerDependencies));
 const banner = `// ${name}@${version} - ${new Date().toISOString()}`;
 
@@ -24,13 +24,7 @@ export default [
         react: "React",
       },
     },
-    plugins: [
-      resolve(),
-      commonjs(),
-      babel({
-        exclude: ["node_modules/**"],
-      }),
-    ],
+    plugins: [resolve(), commonjs(), typescript()],
   },
 
   // CommonJS (for Node) and ES module (for bundlers) build.
@@ -46,10 +40,6 @@ export default [
       { file: pkg.main, format: "cjs", banner },
       { file: pkg.module, format: "es", banner },
     ],
-    plugins: [
-      babel({
-        exclude: ["node_modules/**"],
-      }),
-    ],
+    plugins: [typescript({ tsconfig: "./tsconfig.json" })],
   },
 ];

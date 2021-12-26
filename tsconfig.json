@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "outDir": "dist",
+    "allowJs": true,
+    "declaration": true,
+    "declarationDir": "."
+  },
+  "include": ["./src/**/*"],
+  "exclude": ["dist"]
+}
