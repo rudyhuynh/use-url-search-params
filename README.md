@@ -117,7 +117,7 @@ Should just work with React Router or any routing system. Just make sure that yo
     - `Date` - [`Date​.prototype​.toISOString()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString) is used to parse date to string, e.g date string in your URL query is zero UTC offset
     - Array of available string values (like enum)
     - A custom resolver function
-  - `replace` (optional | boolean | default: false): If true, will call `history.replaceState()` instead of `history#pushState()` on url search param change.
+  - `replace` (optional | boolean | default: false): If true, will call `histor#replaceState()` instead of `history#pushState()` on url search param change.
 
 ## Read more (for maintainers)
 
