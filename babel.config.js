@@ -15,9 +15,10 @@ module.exports = function (api) {
           targets: {
             browsers: ["last 2 versions", "safari >= 7"],
           },
-          modules: false,
+          // modules: false,
         },
       ],
+      ...(process.env.NODE_ENV === "test" ? ["@babel/preset-typescript"] : []),
     ],
     plugins,
   };

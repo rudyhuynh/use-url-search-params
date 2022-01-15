@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from "react";
 import { getWindow } from "./mockWindow";
-import { InitialType, TypesValue, SupportedType, TypesType } from "./typedefs";
+import { InitialType, TypesValue, SupportedType, TypesType, UseUrlSearchParamsResults } from "./typedefs";
 
 const SUPPORTED_PARAMS_TYPES = [Number, String, Boolean, Date];
 
@@ -55,10 +55,7 @@ function validateTypes(types: TypesType = {}): void {
   }
 }
 
-export function useUrlSearchParams(
-  initial: InitialType = {},
-  types: TypesType
-): [InitialType, (nextQuery: InitialType) => void] {
+export function useUrlSearchParams(initial: InitialType = {}, types: TypesType = {}): UseUrlSearchParamsResults {
   if (types) validateTypes(types);
 
   /**

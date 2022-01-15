@@ -4,14 +4,16 @@ const listeners = {
   popstate: [],
 };
 
-let mockWindow = {
-  URL: {
-    searchParams: {
-      set: noop,
-      append: noop,
-      delete: noop,
-    },
-  } as any,
+let mockWindow: any = {
+  URL: function URL() {
+    return {
+      searchParams: {
+        set: noop,
+        append: noop,
+        delete: noop,
+      },
+    };
+  },
   location: {
     href: "",
     search: "",
@@ -34,14 +36,11 @@ let mockWindow = {
   },
 };
 
-export function setWindow(w) {
+export function setWindow(w: any) {
   mockWindow = w;
 }
 
-/**
- * @returns {Window}
- */
-export function getWindow() {
+export function getWindow(): any {
   if (typeof window !== "undefined") return window;
   return mockWindow;
 }

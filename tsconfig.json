@@ -1,10 +1,11 @@
 {
   "compilerOptions": {
+    "target": "ES6",
     "outDir": "dist",
     "allowJs": true,
     "declaration": true,
     "declarationDir": "."
   },
-  "include": ["./src/**/*"],
+  "include": ["./src/**/*", "test/main.test.ts"],
   "exclude": ["dist"]
 }
