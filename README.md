@@ -1,6 +1,6 @@
 # `useUrlSearchParams()`
-[![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/rudyhuynh/use-url-search-params/blob/master/License) 
 
+[![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/rudyhuynh/use-url-search-params/blob/master/License)
 
 A React Hook to use [URL query string](https://en.wikipedia.org/wiki/Query_string) as a state management
 
@@ -43,11 +43,7 @@ function App() {
 
   return (
     <div>
-      <input
-        type="checkbox"
-        checked={params.checked}
-        onChange={e => setParams({ checked: e.target.checked })}
-      />
+      <input type="checkbox" checked={params.checked} onChange={(e) => setParams({ checked: e.target.checked })} />
     </div>
   );
 }
@@ -59,13 +55,13 @@ By default, all values parsed from URL query are string. In case you want to get
 
 ```js
 const initial = {
-  y: "option1"
+  y: "option1",
 };
 const types = {
   x: Number,
   y: Boolean,
   z: Date,
-  t: ["option1", "option2", "option3"]
+  t: ["option1", "option2", "option3"],
 };
 const [params, setParams] = useUrlSearchParams(initial, types);
 
@@ -88,17 +84,17 @@ function App() {
   const [params, setParams] = useUrlSearchParams(
     {},
     {
-      complexData: dataString => {
+      complexData: (dataString) => {
         try {
           return JSON.parse(dataString);
         } catch (e) {
           return {};
         }
-      }
+      },
     }
   );
 
-  const onSetParams = data => {
+  const onSetParams = (data) => {
     setParams({ complexData: JSON.stringify(data) });
   };
 
@@ -112,7 +108,7 @@ Should just work with React Router or any routing system. Just make sure that yo
 
 ## API
 
-- **useUrlSearchParams([initial, types])**
+- **useUrlSearchParams([initial, types, replace])**
   - `initial` (optional | Object): To set default values for URL query string.
   - `types` (optional | Object): Has similar shape with `initial`, help to resolve values from URL query string. Supported types:
     - `String` (default)
@@ -121,6 +117,7 @@ Should just work with React Router or any routing system. Just make sure that yo
     - `Date` - [`Date​.prototype​.toISOString()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString) is used to parse date to string, e.g date string in your URL query is zero UTC offset
     - Array of available string values (like enum)
     - A custom resolver function
+  - `replace` (optional | boolean | default: false): If true, will call `history.replaceState()` instead of `history#pushState()` on url search param change.
 
 ## Read more (for maintainers)
 
