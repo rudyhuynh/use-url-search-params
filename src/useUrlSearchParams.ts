@@ -55,7 +55,11 @@ function validateTypes(types: TypesType = {}): void {
   }
 }
 
-export function useUrlSearchParams(initial: InitialType = {}, types: TypesType = {}): UseUrlSearchParamsResults {
+export function useUrlSearchParams(
+  initial: InitialType = {},
+  types: TypesType = {},
+  replace = false
+): UseUrlSearchParamsResults {
   if (types) validateTypes(types);
 
   /**
@@ -111,7 +115,11 @@ export function useUrlSearchParams(initial: InitialType = {}, types: TypesType =
     const url = setQueryToCurrentUrl(params);
 
     if (getWindow().location.search !== url.search) {
-      getWindow().history.pushState({}, "", url.toString());
+      if (replace) {
+        (getWindow().history as History).replaceState({}, "", url.toString());
+      } else {
+        (getWindow().history as History).pushState({}, "", url.toString());
+      }
     }
     if (urlSearchParams.toString() !== url.searchParams.toString()) {
       forceUpdate({});
