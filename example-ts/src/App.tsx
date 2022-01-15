@@ -1,7 +1,6 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
-import { useUrlSearchParams, UseUrlSearchParamsResults } from "use-url-search-params";
+import { useUrlSearchParams } from "use-url-search-params";
 
 function App() {
   const initial = { checked: true, date: new Date(2019, 6, 1) };
