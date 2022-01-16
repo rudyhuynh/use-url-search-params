@@ -36,6 +36,7 @@
     "@rollup/plugin-node-resolve": "^13.1.1",
     "@rollup/plugin-typescript": "^8.3.0",
     "@testing-library/react-hooks": "^3.2.1",
+    "@types/jest": "^27.4.0",
     "babel-jest": "^27.4.5",
     "esbuild": "^0.14.8",
     "eslint": "^5.16.0",
@@ -54,7 +55,5 @@
     "dist",
     "src"
   ],
-  "dependencies": {
-    "@types/jest": "^27.4.0"
-  }
+  "dependencies": {}
 }
