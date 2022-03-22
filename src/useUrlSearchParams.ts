@@ -1,10 +1,10 @@
 import { useEffect, useState, useMemo } from "react";
 import { getWindow } from "./mockWindow";
-import { InitialType, TypesValue, SupportedType, TypesType, UseUrlSearchParamsResults } from "./typedefs";
+import { TypesValue, SupportedType, TypesType, InitialType } from "./typedefs";
 
 const SUPPORTED_PARAMS_TYPES = [Number, String, Boolean, Date];
 
-function setQueryToCurrentUrl(params: InitialType): URL {
+function setQueryToCurrentUrl<S>(params: S): URL {
   const { URL } = getWindow();
   const url = new URL(getWindow().location.href);
 
@@ -55,11 +55,11 @@ function validateTypes(types: TypesType = {}): void {
   }
 }
 
-export function useUrlSearchParams(
-  initial: InitialType = {},
+export function useUrlSearchParams<S extends InitialType>(
+  initial: S = {} as S,
   types: TypesType = {},
   replace = false
-): UseUrlSearchParamsResults {
+): [S, (nextQuery: Partial<S>) => void] {
   if (types) validateTypes(types);
 
   /**
@@ -77,24 +77,26 @@ export function useUrlSearchParams(
     return new URLSearchParams(locationSearch);
   }, [locationSearch]);
 
-  const params = useMemo<InitialType>(() => {
-    let result = [];
+  const params = useMemo<S>(() => {
+    type KeyValue = { key: string; value: string };
+
+    const keyValuePairs: KeyValue[] = [];
 
     urlSearchParams.forEach((value, key) => {
-      result.push({
+      keyValuePairs.push({
         key,
         value,
       });
     });
 
     //group by key
-    result = result.reduce((acc, val) => {
+    const groupedResult = keyValuePairs.reduce<{ [key: string]: KeyValue[] }>((acc, val) => {
       (acc[val.key] = acc[val.key] || []).push(val);
       return acc;
     }, {});
 
-    result = Object.keys(result).map((key) => {
-      const valueGroup = result[key];
+    const groupedResultArray = Object.keys(groupedResult).map<[string, string | string[]]>((key) => {
+      const valueGroup = groupedResult[key];
       if (valueGroup.length === 1) {
         return [key, valueGroup[0].value];
       } else {
@@ -102,13 +104,13 @@ export function useUrlSearchParams(
       }
     });
 
-    const params = { ...initial };
+    const resultParams: S = { ...initial };
 
-    result.forEach(([key, value]) => {
-      params[key] = parseValue(key, value, types, initial);
+    groupedResultArray.forEach(([key, value]) => {
+      resultParams[key as keyof S] = parseValue(key, value, types, initial);
     });
 
-    return params;
+    return resultParams;
   }, [urlSearchParams]);
 
   function redirectToNewSearchParams(params: InitialType): void {

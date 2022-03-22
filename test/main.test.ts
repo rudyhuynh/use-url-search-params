@@ -1,5 +1,5 @@
 import { renderHook, act } from "@testing-library/react-hooks";
-import { useUrlSearchParams, UseUrlSearchParamsResults } from "../src/main";
+import { useUrlSearchParams } from "../src/main";
 import { setWindow, getWindow } from "../src/mockWindow";
 import { JSDOM } from "jsdom";
 
@@ -31,7 +31,8 @@ describe("browser environment", () => {
   });
 
   test("?name=value", () => {
-    const { result } = renderHook<any, UseUrlSearchParamsResults>(() => useUrlSearchParams({ name: "value" }));
+    type ParamType = { name: string };
+    const { result } = renderHook(() => useUrlSearchParams<ParamType>({ name: "value" }));
 
     let [param] = result.current;
 
@@ -50,7 +51,7 @@ describe("browser environment", () => {
   });
 
   test("empty initial", () => {
-    let { result } = renderHook<any, UseUrlSearchParamsResults>(() => useUrlSearchParams());
+    let { result } = renderHook(() => useUrlSearchParams());
 
     let [param] = result.current;
     expect(param).toEqual({});
@@ -91,14 +92,15 @@ describe("browser environment", () => {
       e: ["x", "y", "z"],
       f: (x) => JSON.parse(x),
     };
-    const { result } = renderHook<any, UseUrlSearchParamsResults>(() => useUrlSearchParams(initial, types));
+
+    const { result } = renderHook(() => useUrlSearchParams(initial, types));
 
     let [param] = result.current;
 
     expect(param.a).toEqual(initial.a);
     expect(param.b).toEqual(initial.b);
     expect(param.c).toEqual(initial.c);
-    expect((param.d as Date).getTime()).toEqual((initial.d as Date).getTime());
+    expect(param.d.getTime()).toEqual(initial.d.getTime());
     expect(param.e).toEqual(initial.e);
     expect(param.f).toEqual(fObj);
     expect(getWindow().location.search).toBe(expectedSearch);
@@ -133,7 +135,7 @@ describe("browser environment", () => {
 
   test("return inital value when set to undefined or null", () => {
     const initial = { name: "value" };
-    const { result } = renderHook<any, any>(() => useUrlSearchParams(initial));
+    const { result } = renderHook(() => useUrlSearchParams(initial));
 
     let [param] = result.current;
 
@@ -160,7 +162,7 @@ describe("browser environment", () => {
   });
 
   test("go back", () => {
-    const { result } = renderHook<any, any>(() => useUrlSearchParams({ name: "value" }));
+    const { result } = renderHook(() => useUrlSearchParams({ name: "value" }));
 
     act(() => {
       const [, setParams] = result.current;
@@ -184,7 +186,7 @@ describe("browser environment", () => {
 
   test("track history", () => {
     expect(getWindow().history.length).toBe(1);
-    const { result } = renderHook<any, any>(() => useUrlSearchParams({ name: "value" }));
+    const { result } = renderHook(() => useUrlSearchParams({ name: "value" }));
 
     expect(getWindow().history.length).toBe(2);
 
